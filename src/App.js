@@ -1,23 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useState } from "react";
+import "./App.css";
+import { incNumber, decNumber, addName } from "./action";
+import { useSelector, useDispatch } from "react-redux";
 function App() {
+  let [name, setName] = useState("");
+  const mystate = useSelector((state) => state);
+  const dispatch = useDispatch();
+  // console.log(typeof mystate);
+  const submithandler = () => {
+    dispatch(addName(name));
+    console.log(mystate.name.name);
+    setName("");
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <h1>Hello Redux</h1>
+      <div className='redux-box'>
+        <button onClick={() => dispatch(decNumber())}>-</button>
+        <h1>{mystate.counter}</h1>
+        <button onClick={() => dispatch(incNumber())}>+</button>
+      </div>
+      <hr />
+      <input
+        type='text'
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+
+      <button onClick={submithandler}>Submit</button>
     </div>
   );
 }
